@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Munva Khan | Leveling Up in Data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Munva Khan Pathan - Data Science student, Python developer & data analytics intern. Solo leveling inspired theme." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --card: rgba(10, 18, 35, 0.95);
+      --accent: #22d3ee;          /* cyan */
+      --accent-2: #4f46e5;        /* indigo */
+      --accent-3: #9333ea;        /* violet */
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --radius-xl: 18px;
+      --radius-2xl: 26px;
+      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.95);
+      --blur: 22px;
+      --transition-fast: 160ms ease-out;
+      --transition-med: 260ms ease-out;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Anime "mana" crack background */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+      background:
+        repeating-linear-gradient(
+          115deg,
+          rgba(15, 23, 42, 0.9) 0px,
+          rgba(15, 23, 42, 0.9) 3px,
+          rgba(8, 15, 30, 1) 3px,
+          rgba(8, 15, 30, 1) 6px
+        );
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 480px;
+      height: 480px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%);
+      filter: blur(2px);
+      z-index: -2;
+      pointer-events: none;
+      transition: transform 2s ease-out;
+    }
+    .bg-orb.orb-1 { top: -120px; left: -80px; }
+    .bg-orb.orb-2 {
+      bottom: -160px;
+      right: -100px;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.25), transparent 70%);
+    }
+
+    /* Custom cursor like glowing pointer */
+    .cursor-dot,
+    .cursor-outline {
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.9);
+    }
+
+    .cursor-outline {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    @media (max-width: 768px) {
+      .cursor-dot,
+      .cursor-outline { display: none; }
+    }
+
+    .wrapper {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 18px 80px;
+    }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      box-shadow: 0 18px 50px rgba(8, 47, 73, 0.9);
+      backdrop-filter: blur(20px);
+      margin-bottom: 38px;
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      background:
+        radial-gradient(circle at 30% 0, #22d3ee, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+    }
+
+    .nav-name {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-3));
+      border-radius: 999px;
+      transition: width var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .nav-link:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 1), rgba(8, 47, 73, 0.9));
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+    }
+
+    .nav-cta span { font-size: 14px; }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 2fr);
+      gap: 32px;
+      align-items: center;
+      padding: 10px 6px 60px;
+    }
+
+    .hero-left { position: relative; }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      margin-bottom: 18px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .hero-kicker-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #22d3ee, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 3.6rem);
+      line-height: 1.05;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-shadow:
+        0 0 18px rgba(15, 23, 42, 0.9),
+        0 0 30px rgba(15, 23, 42, 1);
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(130deg, #22d3ee, #4f46e5, #9333ea);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 460px;
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 11px;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .badge-accent {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 1), rgba(8, 47, 73, 0.98));
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.7);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(120deg, #22d3ee, #4f46e5);
+      color: #f9fafb;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 1),
+                  0 0 26px rgba(56, 189, 248, 0.7);
+      transition: transform var(--transition-med), box-shadow var(--transition-med), filter var(--transition-fast);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.05);
+      box-shadow: 0 26px 70px rgba(15, 23, 42, 1),
+                  0 0 38px rgba(56, 189, 248, 0.9);
+    }
+
+    .btn-ghost {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.92);
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      border-color: rgba(56, 189, 248, 0.7);
+    }
+
+    .hero-right { position: relative; padding: 18px; }
+
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-2xl);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), rgba(3, 7, 18, 0.98));
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      box-shadow: var(--shadow-soft);
+      padding: 20px 18px 18px;
+      overflow: hidden;
+      backdrop-filter: blur(var(--blur));
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 400ms ease-out, box-shadow 400ms ease-out;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -140px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.45), transparent 70%),
+        radial-gradient(circle at 100% 0, rgba(147, 51, 234, 0.35), transparent 70%);
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 1);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-family: "Fira Code", monospace;
+      font-size: 0.9rem;
+    }
+
+    /* Solo-level style XP bars */
+    .xp-bar {
+      position: relative;
+      margin-top: 4px;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+    }
+    .xp-fill {
+      position: absolute;
+      inset: 0;
+      width: var(--xp, 60%);
+      background: linear-gradient(90deg, #22d3ee, #4f46e5, #9333ea);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
+    }
+
+    .hero-timeline {
+      margin-top: 4px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 10px 11px;
+      font-size: 0.78rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22d3ee;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+    }
+
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    /* Sections */
+    section {
+      margin-bottom: 64px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* Cards + grids */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      border: 1px solid var(--border-subtle);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      opacity: 0;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%);
+      transition: opacity var(--transition-med);
+      z-index: -1;
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #e5e7eb;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .chip-accent {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .skills-list {
+      list-style: none;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.7;
+    }
+
+    /* Experience & Projects */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 2.1fr);
+      gap: 20px;
+    }
+
+    .timeline {
+      border-left: 1px dashed rgba(56, 189, 248, 0.6);
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .exp-item {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .exp-item::before {
+      content: "";
+      position: absolute;
+      left: -18px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #22d3ee;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+    }
+
+    .exp-role { font-size: 0.92rem; margin-bottom: 2px; }
+    .exp-meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+
+    .exp-points {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      list-style: disc;
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 1px;
+      background: radial-gradient(circle at 0 0, rgba(34, 211, 238, 0.8), transparent 75%);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform var(--transition-med), box-shadow var(--transition-med);
+    }
+
+    .project-card-inner {
+      border-radius: 18px;
+      background: rgba(10, 18, 35, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.38);
+      padding: 14px 14px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card.subtle {
+      background: radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.7), transparent 75%);
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from 0deg, #22d3ee, #4f46e5, #9333ea, #22d3ee);
+      opacity: 0;
+      transition: opacity 260ms ease-out;
+      z-index: -1;
+      animation: spin 14s linear infinite;
+    }
+
+    .project-card:hover::after { opacity: 0.4; }
+
+    @keyframes spin {
+      to { transform: rotate(1turn); }
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px) rotate3d(1, -1, 0, 7deg);
+      box-shadow: 0 26px 70px rgba(15, 23, 42, 1);
+    }
+
+    .project-name { font-size: 0.96rem; margin-bottom: 4px; color: #e5e7eb; }
+    .project-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+    .project-desc { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 8px; }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 10px;
+      font-size: 0.78rem;
+    }
+
+    .project-link {
+      text-decoration: none;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .project-link:hover {
+      color: var(--accent-3);
+      text-shadow: 0 0 12px rgba(147, 51, 234, 0.8);
+    }
+
+    /* Education & Certifications */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 2.1fr);
+      gap: 18px;
+    }
+
+    .edu-item { margin-bottom: 12px; }
+    .edu-title { font-size: 0.9rem; margin-bottom: 2px; color: #e5e7eb; }
+    .edu-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2px; }
+    .edu-extra { font-size: 0.8rem; color: var(--text-muted); }
+
+    .cert-list {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Contact */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 2fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .contact-line {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.84rem;
+    }
+
+    .contact-pill {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .contact-pill a {
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 520ms ease-out, transform 520ms ease-out;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .hero-right { order: -1; }
+      .nav { padding: 10px 14px; }
+      .nav-right { gap: 10px; }
+      .nav-right span:not(.nav-cta-text) { display: none; }
+    }
+
+    @media (max-width: 720px) {
+      .wrapper { padding-inline: 14px; }
+      .nav { border-radius: 18px; }
+      .hero { padding-inline: 2px; }
+      .about-grid,
+      .two-col-grid,
+      .edu-grid,
+      .contact-inner { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Anime BG layers -->
+  <div class="bg-layer"></div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="nav-logo">MK</div>
+        <div class="nav-name">Munva Khan</div>
+      </div>
+      <div class="nav-right">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-cta">
+          <span class="nav-cta-text">Contact</span> ✦
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left reveal">
+        <div class="hero-kicker">
+          <div class="hero-kicker-dot">LVL</div>
+          Data • Logic • Quiet Grind
+        </div>
+        <h1 class="hero-title">
+          Leveling up in<br />
+          <span class="accent">data & automation.</span>
+        </h1>
+        <p class="hero-subtitle">
+          I’m a Data Science student exploring analytics, Python automation and early-stage ML.<br />
+          Not the final form. Just the current chapter.
+        </p>
+        <div class="hero-badges">
+          <div class="badge badge-accent">Data Science Student</div>
+          <div class="badge">Python Developer</div>
+          <div class="badge">Analytics & Reporting</div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+            VIEW PROJECTS <span>↗</span>
+          </button>
+          <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+            Let’s talk <span>✉</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="hero-card" id="heroCard">
+          <div class="hero-card-top">
+            <div class="hero-card-tag">ACTIVE QUEST: LEARN · BUILD · REPEAT</div>
+            <span>Location: Nellore, Andhra Pradesh</span>
+          </div>
+
+          <div class="hero-metric-grid">
+            <div class="metric" style="--xp: 80%;">
+              <div class="metric-label">ACADEMIC LEVEL</div>
+              <div class="metric-value">CGPA 9.41 / 10</div>
+              <div class="xp-bar"><div class="xp-fill"></div></div>
+            </div>
+            <div class="metric" style="--xp: 65%;">
+              <div class="metric-label">INTERNSHIPS</div>
+              <div class="metric-value">3 ongoing</div>
+              <div class="xp-bar"><div class="xp-fill"></div></div>
+            </div>
+            <div class="metric" style="--xp: 55%;">
+              <div class="metric-label">PYTHON MASTERY</div>
+              <div class="metric-value">&gt; 10k LOC</div>
+              <div class="xp-bar"><div class="xp-fill"></div></div>
+            </div>
+          </div>
+
+          <div class="hero-timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>CodeAlpha</strong> · Data Analytics Intern  
+                <div style="font-size:0.72rem; color:var(--text-muted);">
+                  Dec 2025 – Jan 2026
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>ShadowFox</strong> · Data Science Intern  
+                <div style="font-size:0.72rem; color:var(--text-muted);">
+                  Jan 2026
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>CodSoft</strong> · Python Developer Intern  
+                <div style="font-size:0.72rem; color:var(--text-muted);">
+                  Nov 2025 – Dec 2025
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px; font-size:0.76rem; color:var(--text-muted);">
+            Current arc: building a solid base in data, automation and ML. Next arc: deeper projects and sharper impact.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">About</div>
+          <div class="section-subtitle">Behind the stats and repositories.</div>
+        </div>
+        <div class="pill">Work in progress · intentionally</div>
+      </div>
+      <div class="about-grid">
+        <div class="card reveal">
+          <div class="card-title">A brain tuned to patterns.</div>
+          <div class="card-body">
+            Some people learn to stay comfortable. I learn to evolve.
+            <br /><br />
+            I’m a Data Science student exploring how data, logic and automation can simplify decisions.
+            Most of my time right now lives in Python, analytics and small tools that actually solve things.
+            <br /><br />
+            I like turning noisy information into something structured, explainable and useful.
+            Quietly ambitious. Permanently curious.
+          </div>
+          <div class="chip-row">
+            <div class="chip chip-accent">Data Science Student</div>
+            <div class="chip">Python Developer</div>
+            <div class="chip">Exploratory Analysis</div>
+            <div class="chip">Automation</div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Current focus areas.</div>
+          <div class="card-body">
+            I’m not trying to learn everything at once. I’m trying to learn the right things deeply:
+            <ul style="margin-top:8px; padding-left:18px;">
+              <li>Becoming fluent in Python for data and automation.</li>
+              <li>Practicing EDA, reporting and visual storytelling.</li>
+              <li>Learning ML basics through small, focused experiments.</li>
+              <li>Using Git & GitHub properly from day one.</li>
+            </ul>
+            <div style="margin-top:10px; font-size:0.84rem; color:var(--text-muted);">
+              Philosophy: <em>If it’s easy, it’s not growth.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Skills</div>
+          <div class="section-subtitle">The toolkit I’m leveling up.</div>
+        </div>
+        <div class="pill">Always sharpening</div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="card reveal">
+          <div class="card-title">Data Skills</div>
+          <ul class="skills-list">
+            <li>Data Cleaning & Preprocessing</li>
+            <li>Exploratory Data Analysis (EDA)</li>
+            <li>Feature Understanding</li>
+            <li>Reporting & Visualization</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Tools & Libraries</div>
+          <ul class="skills-list">
+            <li>Pandas, NumPy, Matplotlib</li>
+            <li>Scikit-learn (Basics)</li>
+            <li>Tableau, Excel</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Programming</div>
+          <ul class="skills-list">
+            <li>Python (Strong)</li>
+            <li>SQL (Intermediate)</li>
+            <li>Java, C</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Concepts & Tools</div>
+          <ul class="skills-list">
+            <li>Data Pipelines & CLI Automation</li>
+            <li>File Handling & OOP Principles</li>
+            <li>ML Basics</li>
+            <li>Git, GitHub, Debugging, Documentation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Projects -->
+    <section id="experience">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Experience</div>
+          <div class="section-subtitle">XP earned from actual work.</div>
+        </div>
+        <div class="pill">Early-stage · serious intent</div>
+      </div>
+
+      <div class="two-col-grid">
+        <!-- Experience -->
+        <div class="card reveal">
+          <div class="card-title">Internships</div>
+          <div class="timeline">
+            <div class="exp-item">
+              <div class="exp-role">Data Analytics Intern · CodeAlpha</div>
+              <div class="exp-meta">Dec 2025 – Jan 2026</div>
+              <ul class="exp-points">
+                <li>Analyzed structured datasets using Python and Excel to identify patterns and trends.</li>
+                <li>Built reproducible workflows and visual summaries for clearer reporting.</li>
+              </ul>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-role">Data Science Intern · ShadowFox</div>
+              <div class="exp-meta">Jan 2026</div>
+              <ul class="exp-points">
+                <li>Performed EDA, preprocessing and feature understanding on real-world datasets.</li>
+                <li>Explored ML model performance and accuracy metrics.</li>
+              </ul>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-role">Python Developer Intern · CodSoft</div>
+              <div class="exp-meta">Nov 2025 – Dec 2025</div>
+              <ul class="exp-points">
+                <li>Developed automation tools and CLI applications using Python.</li>
+                <li>Used modular programming, exception handling and persistent data storage.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div id="projects" class="card reveal">
+          <div class="card-title">Selected Work</div>
+          <div class="projects-grid">
+            <!-- CODSOFT -->
+            <div class="project-card">
+              <div class="project-card-inner">
+                <div class="project-name">CODSOFT · Python Automation & CLI Tools</div>
+                <div class="project-meta">Python • CLI • Automation</div>
+                <div class="project-desc">
+                  A set of Python-based tools built during the CodSoft internship, focused on automation,
+                  structured CLI experiences and safe error-handling.
+                </div>
+                <div class="project-tags">
+                  <div class="tag">Automation</div>
+                  <div class="tag">CLI Apps</div>
+                  <div class="tag">Exception Handling</div>
+                </div>
+                <div class="project-links">
+                  <a class="project-link" href="https://github.com/munvakhan25/CODSOFT" target="_blank" rel="noreferrer">
+                    View CODSOFT Repo ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- CodeAlpha Web Scraping -->
+            <div class="project-card subtle">
+              <div class="project-card-inner">
+                <div class="project-name">CodeAlpha · Web Scraping</div>
+                <div class="project-meta">Python • Web Scraping • Data Collection</div>
+                <div class="project-desc">
+                  Scripts that extract structured information from the web in a controlled, repeatable
+                  way, turning raw HTML into usable datasets for analysis.
+                </div>
+                <div class="project-tags">
+                  <div class="tag">Requests / Parsing</div>
+                  <div class="tag">Data Cleaning</div>
+                </div>
+                <div class="project-links">
+                  <a class="project-link" href="https://github.com/munvakhan25/CodeAlpha_WebScraping" target="_blank" rel="noreferrer">
+                    Web Scraping Repo ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- CodeAlpha EDA -->
+            <div class="project-card subtle">
+              <div class="project-card-inner">
+                <div class="project-name">CodeAlpha · Exploratory Data Analysis</div>
+                <div class="project-meta">EDA • Visualization • Insights</div>
+                <div class="project-desc">
+                  A full EDA workflow applied to real datasets: cleaning, feature understanding,
+                  distribution analysis and patterns highlighted via plots and metrics.
+                </div>
+                <div class="project-tags">
+                  <div class="tag">EDA</div>
+                  <div class="tag">Pandas</div>
+                  <div class="tag">Matplotlib</div>
+                </div>
+                <div class="project-links">
+                  <a class="project-link" href="https://github.com/munvakhan25/CodeAlpha_Exploratory-Data-Analysis-EDA-" target="_blank" rel="noreferrer">
+                    EDA Repo ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- CodeAlpha Data Visualization -->
+            <div class="project-card subtle">
+              <div class="project-card-inner">
+                <div class="project-name">CodeAlpha · Data Visualization</div>
+                <div class="project-meta">Charts • Storytelling • Reporting</div>
+                <div class="project-desc">
+                  A focused set of visualizations (bar, line, scatter, etc.) that turn numbers into
+                  readable stories, designed for reports and dashboards.
+                </div>
+                <div class="project-tags">
+                  <div class="tag">Visual Storytelling</div>
+                  <div class="tag">Plots & Charts</div>
+                </div>
+                <div class="project-links">
+                  <a class="project-link" href="https://github.com/munvakhan25/CodeAlpha_Data-Visualization" target="_blank" rel="noreferrer">
+                    Visualization Repo ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education & Certifications -->
+    <section id="education">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Education</div>
+          <div class="section-subtitle">Base stats are solid too.</div>
+        </div>
+        <div class="pill">Not just marks · momentum</div>
+      </div>
+
+      <div class="edu-grid">
+        <div class="card reveal">
+          <div class="edu-item">
+            <div class="edu-title">B.Tech in Artificial Intelligence & Data Science</div>
+            <div class="edu-meta">Geetanjali Institute of Science and Technology · 2024 – 2028</div>
+            <div class="edu-extra">CGPA: 9.41 / 10</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-title">Intermediate (MPC)</div>
+            <div class="edu-meta">Krishna Chaitanya Junior College · 2022 – 2024</div>
+            <div class="edu-extra">Score: 97.2%</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-title">SSC</div>
+            <div class="edu-meta">Tagore High School · 2022</div>
+            <div class="edu-extra">Score: 94%</div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-title">Certifications</div>
+          <div class="cert-list">
+            AWS GenAI · Infosys AI/ML · Deloitte Analytics · Oracle OCI Data Science ·
+            Goldman Sachs Engineering · Walmart SWE · Tata Data Analytics ·
+            JPMorgan Virtual Experience
+            <br /><br />
+            Not trophies. Signals that I’m willing to put in structured effort to learn
+            from different ecosystems.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">Contact</div>
+          <div class="section-subtitle">If you reached this far, maybe it’s not random.</div>
+        </div>
+        <div class="pill">Open to quests & collabs</div>
+      </div>
+
+      <div class="contact-inner">
+        <div class="card reveal">
+          <div class="card-title">Let’s build something thoughtful.</div>
+          <div class="card-body">
+            Whether it’s an internship, a collaboration or just an idea you want to discuss,
+            I’m open to conversations that value clarity, honesty and growth.
+            <br /><br />
+            I might not have all the answers yet, but I’m serious about learning fast and
+            delivering work that actually matters.
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="contact-line">
+            Prefer email for serious opportunities. LinkedIn is fine for everything else.
+          </div>
+          <div class="contact-links">
+            <div class="contact-pill">
+              📧 <a href="mailto:munvakhan25@gmail.com">munvakhan25@gmail.com</a>
+            </div>
+            <div class="contact-pill">
+              🔗 <a href="https://www.linkedin.com/in/munvakhan" target="_blank" rel="noreferrer">linkedin.com/in/munvakhan</a>
+            </div>
+            <div class="contact-pill">
+              🐙 <a href="https://github.com/munvakhan25" target="_blank" rel="noreferrer">github.com/munvakhan25</a>
+            </div>
+            <div class="contact-pill">
+              📍 Nellore, Andhra Pradesh
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        If the path is too clear, it probably isn’t mine.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Custom cursor
+    const dot = document.querySelector(".cursor-dot");
+    const outline = document.querySelector(".cursor-outline");
+
+    let cursorX = window.innerWidth / 2;
+    let cursorY = window.innerHeight / 2;
+    let outlineX = cursorX;
+    let outlineY = cursorY;
+
+    function moveCursor(e) {
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+      dot.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+    }
+
+    window.addEventListener("mousemove", moveCursor);
+
+    function animateOutline() {
+      outlineX += (cursorX - outlineX) * 0.12;
+      outlineY += (cursorY - outlineY) * 0.12;
+      outline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+      requestAnimationFrame(animateOutline);
+    }
+    animateOutline();
+
+    // Hover scale effect
+    const hoverables = document.querySelectorAll("button, .project-card, .card, .nav-cta, .contact-pill");
+    hoverables.forEach(el => {
+      el.addEventListener("mouseenter", () => {
+        outline.style.transform += " scale(1.2)";
+      });
+      el.addEventListener("mouseleave", () => {
+        outline.style.transform = outline.style.transform.replace(/scale\([^)]*\)/, "") + " scale(1)";
+      });
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+    revealEls.forEach(el => observer.observe(el));
+
+    // Parallax for hero card + orbs
+    const heroCard = document.getElementById("heroCard");
+    const orb1 = document.querySelector(".orb-1");
+    const orb2 = document.querySelector(".orb-2");
+
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const intensity = scrollY * 0.02;
+      heroCard.style.transform = `translateY(${intensity * -1.5}px) translateZ(0)`;
+      orb1.style.transform = `translate(${intensity * 1.2}px, ${intensity * 0.5}px)`;
+      orb2.style.transform = `translate(${-intensity * 1.1}px, ${-intensity * 0.4}px)`;
+    });
+
+    // 3D tilt on project cards
+    document.querySelectorAll(".project-card").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = (-y / rect.height) * 10;
+        const rotateY = (x / rect.width) * 10;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "translateY(0) rotateX(0deg) rotateY(0deg)";
+      });
+    });
+  </script>
+</body>
+</html>
